@@ -79,7 +79,26 @@ int count(ArrayUtil util, MatchFunc *match, void* hint){
 	return count;
 }
 
-
+int filter(ArrayUtil util, MatchFunc *match, void *hint, void **destination, int maxItems){
+	void *base = util.base;
+	int count=0,answer=0;
+	for(int i=0;i<util.length;i++){
+		if(match(hint,base)==1){
+			*(destination+count)=base;
+			answer++;
+			count+=util.typeSize;
+		}
+		base+=util.typeSize;
+	}
+	// int size=0;
+	// for(int i=0;i<answer;i++){
+	// 	void *ptr = *(destination+size);
+	// 	int p=*(int *)ptr;
+	// 	printf("%d\n", p);
+	// 	size+=util.typeSize;
+	// }
+	return answer;
+}
 
 
 

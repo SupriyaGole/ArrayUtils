@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "ArrayUtil.h"
 #include <assert.h>
+#include <stdlib.h>
 
 void test_are_equal(){
 	ArrayUtil marks=create(4,10);
@@ -138,6 +139,25 @@ void test_for_count_matched_elements(){
 	assert(noOfEle2==5);
 }
 
+void test_for_filter_elements(){
+	ArrayUtil util = create(4,6);
+	int *elements = (int *)util.base;
+	elements[0]=10;
+	elements[1]=20;
+	elements[2]=30;
+	elements[3]=40;
+	elements[4]=50;
+	elements[5]=60;
+	int a=2;
+	void *hint=&a;
+	void *dest = calloc(util.length,util.typeSize);
+	void **destination = &dest;
+	int answerDiv = filter(util,&isDivisible,hint,destination,util.length);
+	int answerEven = filter(util,&isEven,hint,destination,util.length);
+	assert(answerDiv==6);
+	assert(answerEven==6);
+}
+
 int main(){
 	test_are_equal();
 	test_for_resize_array();
@@ -148,5 +168,6 @@ int main(){
 	test_for_find_last_in_isEven();
 	test_for_find_last_in_isDivisible();
 	test_for_count_matched_elements();
+	test_for_filter_elements();
 	return 0;
 } 
