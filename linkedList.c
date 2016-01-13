@@ -66,6 +66,53 @@ void storeValue(LinkedList list,int *destination){
 	}
 }
 
+void printValue(LinkedList list){
+	ELEMENT *ele = list.first;
+	while(ele!=NULL){
+		printf("%d\n",*(int *)ele->value);
+		ele = ele->next;
+	}
+}
+
+void *getElementAt(LinkedList list,int index){
+	ELEMENT *head = list.first;
+	if(index>list.length)
+		return NULL;
+	while(index>0){
+		if(head!=NULL){
+			head = head->next;
+		}
+		index--;
+	}
+	return head->value;
+}
+
+int indexOf(LinkedList list,void *value){
+	ELEMENT *head = list.first;
+	for(int i=0;i<list.length;i++){
+		if(head!=NULL){
+			if(head->value==value)
+				return i;			
+		}
+		head = head->next;
+	}
+	return -1;
+}
+
+void * deleteElementAt(LinkedList *list, int index){
+	ELEMENT *head = list->first;
+	for(int i=0;i<index-1;i++){
+		if(head!=NULL){
+			head = head->next;
+		}
+	}
+	void *value = head->next->value;
+	head->next = head->next->next;
+	list->length--;
+	return value;
+}
+
+
 
 
 

@@ -17,3 +17,7 @@ void *get_last_element(LinkedList list);
 void forEach(LinkedList *list,ElementProcessor processor);
 void storeValue(LinkedList list,int *destination);
 void increment(void *);
+void printValue(LinkedList list);
+void *getElementAt(LinkedList list,int index);
+int indexOf(LinkedList list,void *value);
+void * deleteElementAt(LinkedList *, int);
