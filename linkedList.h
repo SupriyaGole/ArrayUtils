@@ -10,6 +10,7 @@ typedef struct list{
 } LinkedList;
 
 typedef void (*ElementProcessor)(void *);
+typedef int (*MatchFunc)(void *,void *);
 LinkedList createList(void); 
 int add_to_list(LinkedList *list,void *element);
 void *get_first_element(LinkedList list);
@@ -21,3 +22,6 @@ void printValue(LinkedList list);
 void *getElementAt(LinkedList list,int index);
 int indexOf(LinkedList list,void *value);
 void * deleteElementAt(LinkedList *, int);
+int asArray(LinkedList list, void **destination, int maxElements);
+LinkedList  filter(LinkedList, MatchFunc,void *);
+int isDivisible(void *,void *);

@@ -112,8 +112,32 @@ void * deleteElementAt(LinkedList *list, int index){
 	return value;
 }
 
+int asArray(LinkedList list, void **destination, int maxElements){
+	ELEMENT *ele = list.first;
+	for(int i=0;i<maxElements;i++){
+		if(ele!=NULL){
+			destination[i]=ele->value;
+		}
+	}
+	return maxElements;
+}
 
+LinkedList filter(LinkedList list,MatchFunc match,void *hint){
+	LinkedList newList = createList();
+	ELEMENT *head = list.first;
+	for(int i=0;i<list.length;i++){
+		if(match(hint,head->value)==1){
+			add_to_list(&newList,head->value);
+		}
+		head = head->next;
+	}
+	return newList;
+}
 
-
+int isDivisible(void *hint,void *item){
+	int Hint = *(int *)hint;
+	int Item = *(int *)item;
+	return Item%Hint==0;
+}
 
 
