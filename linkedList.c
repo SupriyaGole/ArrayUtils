@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include "linkedList.h"
 #include <stdlib.h>
+#include <math.h>
+#include <string.h>
+#include <ctype.h>
 
 LinkedList createList(void){
 	LinkedList marks_of_students;
@@ -66,14 +69,6 @@ void storeValue(LinkedList list,int *destination){
 	}
 }
 
-void printValue(LinkedList list){
-	ELEMENT *ele = list.first;
-	while(ele!=NULL){
-		printf("%d\n",*(int *)ele->value);
-		ele = ele->next;
-	}
-}
-
 void *getElementAt(LinkedList list,int index){
 	ELEMENT *head = list.first;
 	if(index>list.length)
@@ -101,13 +96,23 @@ int indexOf(LinkedList list,void *value){
 
 void * deleteElementAt(LinkedList *list, int index){
 	ELEMENT *head = list->first;
-	for(int i=0;i<index-1;i++){
-		if(head!=NULL){
-			head = head->next;
-		}
+	void *value;
+	if(index<0 || index>list->length){
+		return NULL;
 	}
-	void *value = head->next->value;
-	head->next = head->next->next;
+	if(index>=1){
+		for(int i=0;i<index-1;i++){
+			if(head!=NULL){
+				head = head->next;
+			}
+		}
+		value = head->next->value;
+		head->next = head->next->next;
+	}
+	else{
+		value = head->value;
+		list->first = head->next;
+	}
 	list->length--;
 	return value;
 }
@@ -140,4 +145,109 @@ int isDivisible(void *hint,void *item){
 	return Item%Hint==0;
 }
 
+LinkedList reverse(LinkedList list){
+	LinkedList reverseList = createList();
+	for(int i=list.length-1;i>=0;i--){
+		void *ele = getElementAt(list,i);
+		add_to_list(&reverseList,ele);
+	}
+	return reverseList;
+}
+
+void square(void *hint,void *sourceItem,void *destinationItem){
+	int Hint = *(int *)hint;
+	int item = *(int *)sourceItem;
+	*(int *)destinationItem = pow(item,Hint);
+}
+
+void *sum(void *hint,void *previousValue,void *item){
+	int previous = *(int *)previousValue;
+	int Item = *(int *)item;
+	*(int *)previousValue = previous+Item;
+	return previousValue;
+}
+
+LinkedList map(LinkedList list,ConvertFunc convert,void *hint){
+	ELEMENT *head = list.first;
+	LinkedList mapper = createList();
+	void *ele = calloc(list.length,sizeof(void *));
+	for(int i=0;i<list.length;i++){
+		add_to_list(&mapper,ele);
+		ele = ele+8;
+		convert(hint,head->value,(mapper.last->value));
+		head = head->next;
+	}
+	return mapper;
+}
+
+void * reduce(LinkedList list,Reducer func,void *hint,void *initialValue){
+	ELEMENT *head = list.first;
+	for(int i=0;i<list.length;i++){
+		if(head!=NULL){
+			void *previousValue = func(hint,initialValue,head->value);
+			initialValue = previousValue;
+		}
+		head = head->next;
+	}
+	return initialValue;
+}
+
+void getNextChar(void *letter){
+	char next = *(char *)letter;
+	int ascii = (int) next;
+	ascii++;
+	char new = ascii;
+	*(char *)letter = new; 
+}
+
+void toLowerCase(void *str){
+	char *new = (char *)str;
+	char lower[10];
+	for(int i=0;i<strlen(new);i++){
+		lower[i] = tolower(new[i]);
+	}
+	*(char *)str = *lower;
+}
+
+void initializeList(LinkedList *marks_of_student){
+	int number=13;
+	for(int i=0;i<5;i++){
+		int * num1 = (int *)malloc(sizeof(int));
+		number+=10;
+		*num1 = number;
+		add_to_list(marks_of_student,num1);
+	}
+}
+
+void initializeListOfChar(LinkedList *marks_of_student){
+	for(int i=65;i<70;i++){
+		char *a = (char *)malloc(sizeof(char));
+		*a=i;
+		add_to_list(marks_of_student,a);
+	}
+}
+
+void printValue(LinkedList list){
+	ELEMENT *ele = list.first;
+	while(ele!=NULL){
+		printf("%d\n",*(int *)ele->value);
+		ele = ele->next;
+	}
+}
+
+void printChar(LinkedList list){
+	ELEMENT *ele = list.first;
+	while(ele!=NULL){
+		printf("%c\n",*(char *)ele->value);
+		ele = ele->next;
+	} 
+}
+
+void printString(LinkedList list){
+	ELEMENT *ele = list.first;
+	while(ele!=NULL){
+		printf("%s\n",ele->value);
+		ele = ele->next;
+	}
+}
 
