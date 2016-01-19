@@ -209,6 +209,21 @@ void toLowerCase(void *str){
 	*(char *)str = *lower;
 }
 
+int isCapitalLetter(void *hint,void *item){
+	char letter = *(char *)item;
+	return letter>='A' && letter<='Z';
+}
+
+int hasLetter(void *hint,void *item){
+	char Hint = *(char *)hint;
+	char *Item = (char *)item;
+	for(int i=0;i<strlen(Item);i++){
+		if(Item[i]==Hint)
+			return 1;
+	}
+	return 0;
+}
+
 void initializeList(LinkedList *marks_of_student){
 	int number=13;
 	for(int i=0;i<5;i++){
