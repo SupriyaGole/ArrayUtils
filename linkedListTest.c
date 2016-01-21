@@ -39,7 +39,6 @@ void test_for_add_Strings_to_List(){
 	char *a2 = "Supu";
 	int nextLength = add_to_list(&marks_of_student,a2);
 	assert(nextLength==2);
-	// printString(marks_of_student);
 }
 
 void test_for_get_first_element_from_list_of_characters(){
@@ -184,6 +183,30 @@ void test_to_find_indexOf_list_of_integers(){
 	assert(no4Index==3);
 }
 
+void test_to_find_indexOf_string_in_given_List(){
+	LinkedList initialsOfName = createList();
+	char a1[] = "Anu";
+	char a2[] = "Supu";
+	add_to_list(&initialsOfName,a1);
+	add_to_list(&initialsOfName,a2);
+	int firstIndex = indexOf(initialsOfName,a1);
+	assert(firstIndex==0);
+	int secondIndex = indexOf(initialsOfName,a2);
+	assert(secondIndex==1);
+}
+
+void test_to_find_indexOf_characters_in_given_List(){
+	LinkedList initialsOfName = createList();
+	char a1 = 'A';
+	char a2 = 'S';
+	add_to_list(&initialsOfName,&a1);
+	add_to_list(&initialsOfName,&a2);
+	int firstIndex = indexOf(initialsOfName,&a1);
+	assert(firstIndex==0);
+	int secondIndex = indexOf(initialsOfName,&a2);
+	assert(secondIndex==1);
+}
+
 void test_for_deleteElementAt_of_list_of_integers(){
 	LinkedList marks_of_student = createList();
 	initializeList(&marks_of_student);
@@ -220,7 +243,7 @@ void test_to_deleteElementAt_specific_positions_from_list_of_strings(){
 	assert(strcmp(new2,"Supu")==0);
 }
 
-void test_for_asArray(){
+void test_for_asArray_which_will_put_Integer_Elements_from_list_into_an_array(){
 	LinkedList marks_of_students = createList();
 	initializeList(&marks_of_students);
 	int maxLength = marks_of_students.length;
@@ -229,12 +252,41 @@ void test_for_asArray(){
 	assert(count==maxLength);
 }
 
-void test_will_return_new_LinkedList_of_filtered_elements(){
+void test_for_asArray_which_will_put_Character_Elements_from_list_into_an_array(){
+	LinkedList initialsOfName = createList();
+	initializeListOfChar(&initialsOfName);
+	int maxLength = initialsOfName.length;
+	void *destination[maxLength];
+	int count = asArray(initialsOfName,destination,maxLength);
+	assert(count==maxLength);
+}
+
+void test_will_return_new_LinkedList_of_filtered_integer_elements(){
 	LinkedList marks_of_students = createList();
 	initializeList(&marks_of_students);
 	int hint=3; 
 	LinkedList newList = filter(marks_of_students,&isDivisible,&hint);
 	assert(newList.length==2);
+}
+
+void test_which_will_return_all_characters_which_are_in_capital_letter(){
+	LinkedList initialsOfName = createList();
+	initializeListOfChar(&initialsOfName);
+	LinkedList newList = filter(initialsOfName,&isCapitalLetter,0);
+	assert(newList.length==5);
+}
+
+void test_will_return_all_strings_which_contains_letter_a(){
+	LinkedList list = createList();
+	char a1[] = "Anu";
+	char a2[] = "Supu";
+	char a3[] = "Supriya";
+	add_to_list(&list,a1);
+	add_to_list(&list,a2);
+	add_to_list(&list,a3);
+	char hint='a';
+	LinkedList newList = filter(list,&hasLetter,&hint);
+	assert(newList.length==1);
 }
 
 void test_will_return_one_new_reverse_linkedList(){
